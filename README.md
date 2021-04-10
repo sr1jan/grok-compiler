@@ -1,6 +1,6 @@
 # init(grok-compiler)
 
-while (grok != '100%' | !bored): 
+while (grok < '100%' || !bored): 
     continue
 
 
