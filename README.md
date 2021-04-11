@@ -16,4 +16,5 @@ while (grok != '100%' | !bored):
 
 
 ### References
- - [Compilers by Alex Aiken](https://archive.org/details/academictorrents_e31e54905c7b2669c81fe164de2859be4697013a) (Internet Archive <3)
+    - [Compilers by Alex Aiken](https://archive.org/details/academictorrents_e31e54905c7b2669c81fe164de2859be4697013a) (Internet Archive <3)
+    - Python's regular expression implementation: [re](https://github.com/python/cpython/blob/master/Modules/_sre.c)

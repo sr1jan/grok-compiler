@@ -6,22 +6,22 @@ important:
 
 Production rules:
     E --> TE'
-    E' --> +TE' | e
+    E' --> +TE'
     T --> FT'
-    T' --> *FT' | e
+    T' --> *FT'1
     F --> id | (E)
     ----------------
     E --> TX
-    X --> +TX | e
+    X --> +TX
     T --> FY
-    Y --> *FY | e
+    Y --> *FY
     F --> id | (E)
 
 Assumptions:
     E' --> X
     T' --> Y
 
-Lexical Structure:
+Lexical Structure (<token_class, lexeme>):
     keyword: id
     char: [a-z]
     special notations: +, *, '(', ')'
@@ -29,15 +29,22 @@ Lexical Structure:
 First:
     expected answer:
         E --> First(T) --> First(F) --> {id, '('}
-        X --> {+, e}
+        X --> {+}
         T --> First(F) --> {id, '('}
-        Y --> {*, e}
+        Y --> {*}
         F --> {id, '('}
 
+Follow:
+    expected answer:
+        E --> $, )
+        X -->
+        T -->
+        Y -->
+        F -->
 """
 
 import re
-from typing import Dict, List
+from typing import Dict, Set
 
 
 class FirstnFollow:
@@ -58,15 +65,15 @@ class FirstnFollow:
     def __str__(self):
         return f"Production Rules --> {self.rules_dict}"
 
-    def recur_first(self, n_t: str) -> List:
+    def recur_first(self, n_t: str) -> Set:
         """Find Firsts recursively"""
-        firsts = []
+        firsts: Set = set()
         for val in self.rules_dict[n_t]:
             term = re.match(self.regex, val)
             if term:
-                firsts.append(term.group())  # got terminal
+                firsts.add(term.group())  # got terminal
             else:
-                firsts.extend(self.recur_first(val[0]))  # got non-terminal
+                firsts.update(self.recur_first(val[0]))  # got non-terminal
         return firsts
 
     def get_first(self) -> Dict:
@@ -85,19 +92,19 @@ class FirstnFollow:
             display += f"{n_t}\t\t{',  '.join(rhs)}\n"
         return display
 
-    # def getFollows(self) -> Dict:
-    #     """Generates Follow"""
-    #     ans: Dict = {}
-    #     return ans
+    def getFollows(self) -> Dict:
+        """Generates Follow"""
+        ans: Dict = {}
+        return ans
 
 
 # driver code
 if __name__ == "__main__":
     PROD_RULES = """
                     E --> TX
-                    X --> +TX | e
+                    X --> +TX
                     T --> FY
-                    Y --> *FY | e
+                    Y --> *FY
                     F --> id | (E)
                 """
 
